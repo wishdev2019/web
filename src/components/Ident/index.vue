@@ -77,7 +77,8 @@
                 let ctx = canvas.getContext('2d')
                 ctx.textBaseline = 'bottom'
                 // 绘制背景
-                ctx.fillStyle = this.randomColor(this.backgroundColorMin, this.backgroundColorMax)
+                //ctx.fillStyle = this.randomColor(this.backgroundColorMin, this.backgroundColorMax)
+                ctx.fillStyle = '#000'
                 ctx.fillRect(0, 0, this.contentWidth, this.contentHeight)
                 // 绘制文字
                 for (let i = 0; i < this.identifyCode.length; i++) {
@@ -130,3 +131,6 @@
         }
     }
 </script>
+<style>
+    canvas{margin-left:31px;}
+</style>

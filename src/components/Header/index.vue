@@ -42,7 +42,7 @@
             </div>
             <div class="Rihgt_MenuBox">
               <div class="indexLogo">
-                <a href="/"><div class="LogoIcon"></div></a>
+                <span><div class="LogoIcon"></div></span>
               </div>
               <div class="MenuBox">
                 <ul>

@@ -15,112 +15,115 @@
     <!--            <a @click="Login" class="login_btn">登录</a>-->
             <el-button @click="Login" class="login_btn" :loading="loginLoading">登陆</el-button>
           </li>
-          <li class="nbr">
+          <li class="nbr flex">
             <el-button  size="mini" @click="Register">注册</el-button>
-<!--            <el-button size="mini" @click="ResetPasswd">忘记密码？</el-button>-->
-          </li>
-        </ul>
-      </div>
-      <div class="login_copyight">
-        <p class="p1">- 如意娱乐 -</p>
-        <p class="p2">- 为您的资金安全保驾护航 -</p>
-      </div>
-        <el-dialog title="注册" :visible.sync="RegisterFlag" :close-on-click-modal="false">
-            <el-form :model="RegisterForm" status-icon label-width="100px" :rules="RegisterFormRules" ref="RegisterForm" label-position='left' size="mini">
-                <el-form-item label="用户名" prop="name">
-                    <el-input v-model="RegisterForm.name" placeholder="请输入用户名"></el-input>
-                </el-form-item>
-                <el-form-item label="密码" prop="passwd">
-                    <el-input v-model="RegisterForm.passwd" placeholder="请输入密码" show-password></el-input>
-                </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click.native="RegisterFlag = false">取消</el-button>
-                <el-button type="primary" @click.native="Register" :loading="RegisterLoading">提交</el-button>
+              <!--       <el-button size="mini" @click="ResetPasswd">忘记密码？</el-button>-->
+                  </li>
+                </ul>
+              </div>
+              <div class="login_copyight">
+                <p class="p1">- 如意娱乐 -</p>
+                <p class="p2">- 为您的资金安全保驾护航 -</p>
+              </div>
+
             </div>
-        </el-dialog>
-    </div> </div>
-</template>
+                <el-dialog title="注册" width="25%" top="30vh" :visible.sync="RegisterFlag" :close-on-click-modal="false">
+                    <el-form :model="RegisterForm" class="RegisterFlag_in" status-icon label-width="100px" :rules="RegisterFormRules" ref="RegisterForm" label-position='left' size="mini">
+                        <el-form-item label="用户名" prop="name">
+                            <el-input v-model="RegisterForm.name" placeholder="请输入用户名"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码" prop="passwd">
+                            <el-input v-model="RegisterForm.passwd" placeholder="请输入密码" show-password></el-input>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+                        <el-button @click.native="RegisterFlag = false">取消</el-button>
+                        <el-button type="primary" @click.native="Register" :loading="RegisterLoading">提交</el-button>
+                    </div>
+                </el-dialog>
+            </div>
 
-<script>
-  import { login } from '@/api/request/request'
-  import SIdentify from '../Ident'
+        </template>
 
-  export default {
-      components: {
-          SIdentify
-      },
-    data() {
-      return {
-          RegisterForm:{},
-          RegisterFlag:false,
-          RegisterFormRules:{},
-          RegisterLoading:false,
-        msg: 'Welcome to Your Vue.js App',
-        request_data : {
-          loginname : "",
-          passwd : ""
-        },
-        passwd : "",
-        loginLoading: false,
-          identifyCodes: '1234567890',
-          identifyCode: '',
-          verifycode:''
-      };
-    },
-    methods :{
-        Register(){
-            this.RegisterFlag = true
-        },
-      Login(){
-        if(this.verifycode !== this.identifyCode){
-            this.$message.error("验证码错误,请重新输入!")
-            this.refreshCode()
-            return
-        }
-        this.loginLoading = true
-        login({
-          data : {
-            loginname : this.request_data.loginname,
-            passwd : this.$md5(this.passwd)
-          },
-          callback: (res) => {
-            localStorage.authorization = res.headers.authorization
-            this.$router.push({path:'/home'})
-            this.loginLoading = false
-          },
-          errorcallback: () => {
-            this.loginLoading = false
-              this.refreshCode()
-          }
-        })
-      },
-        randomNum(min, max) {
-            return Math.floor(Math.random() * (max - min) + min)
-        },
-        // 切换验证码
-        refreshCode() {
-            this.identifyCode = ''
-            this.makeCode(this.identifyCodes, 4)
-        },
-        // 生成四位随机验证码
-        makeCode(o, l) {
-            for (let i = 0; i < l; i++) {
-                this.identifyCode += this.identifyCodes[
-                    this.randomNum(0, this.identifyCodes.length)
-                    ]
-            }
-            console.log(this.identifyCode)
-        }
-    },
-      mounted() {
-          localStorage.clear()
-          this.refreshCode()
-      },
-  };
-</script>
+        <script>
+          import { login } from '@/api/request/request'
+          import SIdentify from '../Ident'
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+          export default {
+              components: {
+                  SIdentify
+              },
+            data() {
+              return {
+                  RegisterForm:{},
+                  RegisterFlag:false,
+                  RegisterFormRules:{},
+                  RegisterLoading:false,
+                msg: 'Welcome to Your Vue.js App',
+                request_data : {
+                  loginname : "",
+                  passwd : ""
+                },
+                passwd : "",
+                loginLoading: false,
+                  identifyCodes: '1234567890',
+                  identifyCode: '',
+                  verifycode:''
+              };
+            },
+            methods :{
+                Register(){
+                    this.RegisterFlag = true
+                },
+              Login(){
+                if(this.verifycode !== this.identifyCode){
+                    this.$message.error("验证码错误,请重新输入!")
+                    this.refreshCode()
+                    return
+                }
+                this.loginLoading = true
+                login({
+                  data : {
+                    loginname : this.request_data.loginname,
+                    passwd : this.$md5(this.passwd)
+                  },
+                  callback: (res) => {
+                    localStorage.authorization = res.headers.authorization
+                    this.$router.push({path:'/home'})
+                    this.loginLoading = false
+                  },
+                  errorcallback: () => {
+                    this.loginLoading = false
+                      this.refreshCode()
+                  }
+                })
+              },
+                randomNum(min, max) {
+                    return Math.floor(Math.random() * (max - min) + min)
+                },
+                // 切换验证码
+                refreshCode() {
+                    this.identifyCode = ''
+                    this.makeCode(this.identifyCodes, 4)
+                },
+                // 生成四位随机验证码
+                makeCode(o, l) {
+                    for (let i = 0; i < l; i++) {
+                        this.identifyCode += this.identifyCodes[
+                            this.randomNum(0, this.identifyCodes.length)
+                            ]
+                    }
+                    console.log(this.identifyCode)
+                }
+            },
+              mounted() {
+                  localStorage.clear()
+                  this.refreshCode()
+              },
+          };
+        </script>
+
+        <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
   h1, h2 {
     font-weight: normal;
@@ -137,7 +140,7 @@
     color: #42b983;
   }
   .login_bgsrcoll{background: #000 url(../../../static/images/topbg.jpg) no-repeat;background-size: 100%;}
-  .login_masklayer{background:#000 url(../../../static/images/topbg.jpg) no-repeat center; width:100%; height:100%; position: absolute; z-index:20;}
+  .login_masklayer{background:#000 url(../../../static/images/timg.jpg) no-repeat center;background-size: cover; width:100%; height:100%; position: absolute; z-index:20;}
   .login_masklayer.tspeed{ height:auto;}
   .login_masklayer_pt{background:rgba(0,0,0,0); width:100%; height:100%; position: absolute; z-index:20;}
   .login_masklayer_pt .login_logo{width:160px; height:50px; background:url(../../../static/images/nw_logo.png) no-repeat; background-size:100%; position:absolute;top:20%;left:50%;margin-left:-135px; opacity:0.8;}
@@ -178,4 +181,11 @@
   .login_detect .login_logoform{ top:40%;}
   .login_detect .login_logoform ul li .login_btn{ background:none; border:2px solid #18a9a9;transition: all .2s ease-in-out; -moz-transition: all .2s ease-in-out; -webkit-transition: all .2s ease-in-out; -o-transition: all .2s ease-in-out; -ms-transition: all .2s ease-in-out}
   .login_detect .login_logoform ul li .login_btn:hover{ background:none; border:2px solid #39d8d8; border-radius:30px; color:#39d8d8}
+  .flex{display: flex; justify-content: space-between;}
+    .RegisterFlag .el-dialog{width:30%;}
+  .el-button:hover{color: #18a9a9;
+      border-color: #18a9a9;
+      background-color: #f7f9f9;}
+  .el-button--primary{background:#18a9a9; border-color: #18a9a9; color: #fff;}
+  .el-button--primary:hover{background:#18c5c5; border-color: #18c5c5; color: #fff;}
 </style>
