@@ -1,5 +1,7 @@
+import CryptoJS from 'crypto-js/crypto-js'
 
 export function timestampToTime (unixtimestamp1){
+
   var unixtimestamp = new Date(unixtimestamp1*1000);
   var year = 1900 + unixtimestamp.getYear();
   var month = "0" + (unixtimestamp.getMonth() + 1);
@@ -11,6 +13,21 @@ export function timestampToTime (unixtimestamp1){
       + " " + hour.substring(hour.length-2, hour.length) + ":"
       + minute.substring(minute.length-2, minute.length) + ":"
       + second.substring(second.length-2, second.length);
+}
+
+// export function imgjoin(img){
+//
+//   const upload_url = config.devServer.proxy[Object.keys(config.devServer.proxy)[1]].target
+//
+//   return upload_url+img
+// }
+
+export function getToken() {
+  return localStorage.getItem('authorization')
+}
+
+export function removeToken() {
+  localStorage.remove('authorization')
 }
 
 function PrefixInteger(num, length) {
@@ -99,13 +116,7 @@ export function Encrypt(word) {
   });
   // console.log("-=-=-=-", encrypted)
   //console.log(CryptoJS.enc.Base64.stringify(encrypted))
-  return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
-}
-
-export function sleep(milliSeconds){
-  var StartTime =new Date().getTime();
-  let i = 0;
-  while (new Date().getTime() <StartTime+milliSeconds);
-
+  let data = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
+  return data
 }
 

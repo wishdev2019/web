@@ -1,17 +1,23 @@
 <template>
-  <div class="login_bgsrcoll">
+    <div class="login_bgsrcoll">
     <div class="login_masklayer">
       <div class="login_logo"></div>
       <div class="login_logoform">
         <ul>
-          <li><label class="label_icon01">用户名：</label><input name="userName" id="userName" type="text" value="" class="txt01" placeholder="用户名" ></li>
-          <li><label class="label_icon02">密码：</label><input name="password" id="password" type="password" value="" class="txt01" placeholder="密  码"></li>
-          <li class="nbr"><div class="yzm_div"><label class="label_icon03">验证码：</label><input name="code" id="code" type="text" value="" class="txt01" placeholder="验证码"></div><div class="yzm"><img onclick="refreshimg_2();" id="validate_2" src="/code.php" title="点击刷新"></div></li>
-          <li class="nbr"><a href="javascript:void(0);" onclick="LoginNow();" class="login_btn">登 录</a></li>
+          <li><label  class="label_icon01">登录名：</label><input  v-model="request_data.loginname" name="userName" id="userName" type="text" value="" class="txt01" placeholder="用户名" ></li>
+          <li><label  class="label_icon02">密码：</label><input v-model="passwd" name="password" id="password" type="password" value="" class="txt01" placeholder="密  码"></li>
+          <li class="nbr"><div class="yzm_div"><label class="label_icon03">验证码：</label><input  v-model="verifycode" name="code" id="code" type="text" value="" class="txt01" placeholder="验证码"></div>
+              <div @click="refreshCode">
+                  <s-identify :identifyCode="identifyCode"></s-identify>
+              </div>
+          </li>
           <li class="nbr">
-            <a href="/?controller=default&amp;tag=forgotpassword" class="forgetkey">忘记密码？</a>
-            <a href="https://www.639535.com/validate.html" class="domain_test">域名验证</a>
-            <a href="https://www.639535.com" class="domain_speed">域名测速</a>
+    <!--            <a @click="Login" class="login_btn">登录</a>-->
+            <el-button @click="Login" class="login_btn" :loading="loginLoading">登陆</el-button>
+          </li>
+          <li class="nbr">
+            <el-button  size="mini" @click="Register">注册</el-button>
+<!--            <el-button size="mini" @click="ResetPasswd">忘记密码？</el-button>-->
           </li>
         </ul>
       </div>
@@ -19,17 +25,98 @@
         <p class="p1">- 如意娱乐 -</p>
         <p class="p2">- 为您的资金安全保驾护航 -</p>
       </div>
-    </div>  </div>
+        <el-dialog title="注册" :visible.sync="RegisterFlag" :close-on-click-modal="false">
+            <el-form :model="RegisterForm" status-icon label-width="100px" :rules="RegisterFormRules" ref="RegisterForm" label-position='left' size="mini">
+                <el-form-item label="用户名" prop="name">
+                    <el-input v-model="RegisterForm.name" placeholder="请输入用户名"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="passwd">
+                    <el-input v-model="RegisterForm.passwd" placeholder="请输入密码" show-password></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click.native="RegisterFlag = false">取消</el-button>
+                <el-button type="primary" @click.native="Register" :loading="RegisterLoading">提交</el-button>
+            </div>
+        </el-dialog>
+    </div> </div>
 </template>
 
 <script>
+  import { login } from '@/api/request/request'
+  import SIdentify from '../Ident'
+
   export default {
-    name: 'HelloWorld',
+      components: {
+          SIdentify
+      },
     data() {
       return {
-        msg: 'Welcome to Your Vue.js App'
+          RegisterForm:{},
+          RegisterFlag:false,
+          RegisterFormRules:{},
+          RegisterLoading:false,
+        msg: 'Welcome to Your Vue.js App',
+        request_data : {
+          loginname : "",
+          passwd : ""
+        },
+        passwd : "",
+        loginLoading: false,
+          identifyCodes: '1234567890',
+          identifyCode: '',
+          verifycode:''
       };
-    }
+    },
+    methods :{
+        Register(){
+            this.RegisterFlag = true
+        },
+      Login(){
+        if(this.verifycode !== this.identifyCode){
+            this.$message.error("验证码错误,请重新输入!")
+            this.refreshCode()
+            return
+        }
+        this.loginLoading = true
+        login({
+          data : {
+            loginname : this.request_data.loginname,
+            passwd : this.$md5(this.passwd)
+          },
+          callback: (res) => {
+            localStorage.authorization = res.headers.authorization
+            this.$router.push({path:'/home'})
+            this.loginLoading = false
+          },
+          errorcallback: () => {
+            this.loginLoading = false
+              this.refreshCode()
+          }
+        })
+      },
+        randomNum(min, max) {
+            return Math.floor(Math.random() * (max - min) + min)
+        },
+        // 切换验证码
+        refreshCode() {
+            this.identifyCode = ''
+            this.makeCode(this.identifyCodes, 4)
+        },
+        // 生成四位随机验证码
+        makeCode(o, l) {
+            for (let i = 0; i < l; i++) {
+                this.identifyCode += this.identifyCodes[
+                    this.randomNum(0, this.identifyCodes.length)
+                    ]
+            }
+            console.log(this.identifyCode)
+        }
+    },
+      mounted() {
+          localStorage.clear()
+          this.refreshCode()
+      },
   };
 </script>
 
@@ -72,13 +159,13 @@
   .login_logoform ul li .yzm_div:hover{ border:1px solid #18a9a9;}
   .login_logoform ul li .yzm{ float:right; border:1px solid  rgba(255,255,255,0.5); width:112px; height:33px; overflow:hidden; cursor:pointer;}
   .login_logoform ul li .yzm img{ width:112px; height:33px;}
-  .login_logoform ul li .login_btn{ width:100%; height:35px; background:#18a9a9; background-size:200% 520%; color:#fff; text-align: center; line-height:35px; display:block;transition: all .4s ease-in-out; -moz-transition: all .4s ease-in-out; -webkit-transition: all .4s ease-in-out; -o-transition: all .4s ease-in-out; -ms-transition: all .4s ease-in-out}
+  .login_logoform ul li .login_btn{ width:100%; height:35px; background:#18a9a9; background-size:200% 520%; color:#fff; text-align: center; display:block;transition: all .4s ease-in-out; -moz-transition: all .4s ease-in-out; -webkit-transition: all .4s ease-in-out; -o-transition: all .4s ease-in-out; -ms-transition: all .4s ease-in-out}
   .login_logoform ul li .login_btn:hover{ background:#118f8f url(../../../static/images/nw_topmenu_bg.jpg)  no-repeat; background-size:100% 220%;transition: all .4s ease-in-out; -moz-transition: all .4s ease-in-out; -webkit-transition: all .4s ease-in-out; -o-transition: all .4s ease-in-out; -ms-transition: all .4s ease-in-out}
   .login_logoform ul li a.forgetkey,.login_logoform ul li a.domain_test,.login_logoform ul li a.domain_speed{ width:70px; text-align:center;height:18px; line-height:18px; color:#ddd; margin-top:-5px; display:block;font-size:12px; border:1px solid #333; border-radius:3px;}
   .login_logoform ul li a.forgetkey{float:left;}
   .login_logoform ul li a.domain_test{ float:left; margin-left:30px;}
-  .login_logoform ul li a.domain_speed{ float:right;}
-  .login_logoform ul li a.forgetkey:hover,.login_logoform ul li a.domain_test:hover,.login_logoform ul li a.domain_speed:hover{ color:#b79f19; text-decoration:none; border:1px solid #6A5B09;}
+  /*.login_logoform ul li a.domain_speed{ float:right;}*/
+  /*.login_logoform ul li a.forgetkey:hover,.login_logoform ul li a.domain_test:hover,.login_logoform ul li a.domain_speed:hover{ color:#b79f19; text-decoration:none; border:1px solid #6A5B09;}*/
 
   .login_copyight { width:100%; text-align:center; line-height:30px; color:#bbb; text-transform: none; position:absolute; bottom:10%;}
   .login_copyight .p1{ font-size:16px;}

@@ -1,9 +1,9 @@
 
 import { CoreRequest } from './fetch'
 
-//获取菜单
-export function get_menu(options) {
-  options['url']='/api/public/get_menu'
-  options['method']='get'
+//登陆
+export function login(options) {
+  options['url']='/api/user/login'
+  options['method']='post'
   CoreRequest(options)
 }

@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { Loading,Message } from 'element-ui';
-import Vue from 'vue'
+import { Loading , Message } from "element-ui";
 
-import { Decrypt , Encrypt } from '~/api/utils'
+import { Decrypt , Encrypt } from '@/api/utils'
 
 function fetch (options) {
   return new Promise((resolve, reject) => {
@@ -18,17 +17,19 @@ function fetch (options) {
       // let loadingInstance = Loading.service({text:'正在努力的加载中!'});
       return config
     }, error => {
-      Message({
-        message: '加载超时',
-        type: 'error'
-      });
+      // Toast.fail('加载超时,请重新刷新!');
       // Vue.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
       //   loadingInstance.close();
       // });
+      Message({
+        message: '加载超时!',
+        type : 'error'
+      })
       return Promise.reject(error)
     })
     instance(options)
       .then(response => { // then 请求成功之后进行什么操作
+        // alert(response.data.data)
 
         if(response.data.data){
           response.data.data = JSON.parse('{ "data":' + Decrypt(response.data.data) + '}')
@@ -37,14 +38,14 @@ function fetch (options) {
         resolve(response) // 把请求到的数据发到引用请求的地方
       })
       .catch(error => {
-        console.log('请求异常信息：' + error)
+        // console.log('请求异常信息：' + error)
         // Vue.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
         //   loadingInstance.close();
         // });
         Message({
           message: '访问服务器出错!',
-          type: 'error'
-        });
+          type : 'error'
+        })
         reject(error)
       })
   })
@@ -65,7 +66,7 @@ export function CoreRequest (options) {
   }).then((res) => {
 
     if (res && res.data.rescode === '20001' ){
-      console.log("失效")
+      // console.log("失效")
       localStorage.clear()
     }else if (res && res.data.rescode !== '10000') {
 
@@ -73,10 +74,11 @@ export function CoreRequest (options) {
         options.errorcallback(res)
       }
       // valert({content: res.data.msg,confirm:options.confirm,cancel:options.cancel})
+
       Message({
         message: res.data.msg,
-        type: 'error'
-      });
+        type : 'error'
+      })
     } else {
       if (typeof options.callback === 'function') {
         options.callback(res)
@@ -88,7 +90,7 @@ export function CoreRequest (options) {
     }
     Message({
       message: '访问服务器出错!',
-      type: 'error'
-    });
+      type : 'error'
+    })
   })
 }
