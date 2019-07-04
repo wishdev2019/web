@@ -31,7 +31,7 @@
                   <div class="BalanceCont">
                     <div class="fl">
                       <label>可用余额：</label>
-                      <span class="bal" id="cpmoney">0.8348</span></div>
+                      <span class="bal" id="cpmoney">{{$store.state.user.bal}}</span></div>
                   </div>
                 </div>
                 <!--余额详情弹出层-->
@@ -194,12 +194,12 @@ export default {
   .Left_Userinfo dl.user_dl .UserName{height:30px;}
   .Left_Userinfo dl.user_dl dt{ width:80px; height:80px; margin-top:5px; float:left; border-radius:50px; overflow:hidden; float:left; background:url(../../../static/images/nw_topmenu_userpic.png) no-repeat center; background-size: contain;}
   .Left_Userinfo dl.user_dl dt img{ width:100%;}
-  .Left_Userinfo dl.user_dl dd{ width:100px; height:95px; float:left; font-size:14px; padding:5px 0 0 10px;float:left; margin-left:10px;}
+  .Left_Userinfo dl.user_dl dd{ width:130px; height:95px; float:left; font-size:14px; padding:5px 0 0 10px;float:left; margin-left:10px;}
   .Left_Userinfo dl.user_dl dd label{ float:left; height:30px; line-height:30px; color:#fff; font-size:12px;}
   .Left_Userinfo dl.user_dl dd .UserIP{ text-align:left; font-size:12px; color:#efefef;}
   .Left_Userinfo dl.user_dl dd .UserIP h4{ font-size:14px; color:#58a5a6; margin:0;}
-  .Left_Userinfo dl.user_dl dd .UserIP .logintime{ width:100%;}
-  .Left_Userinfo dl.user_dl dd .UserIP .loginaddr{ width:100%;}
+  .Left_Userinfo dl.user_dl dd .UserIP .logintime{ margin-top:5px;width:100%;}
+  .Left_Userinfo dl.user_dl dd .UserIP .loginaddr{ margin-top:5px; width:100%;}
   dl.user_dl2{ width:100%; border-top:1px solid #1a9597;margin: 0 auto; position:absolute; top:152px;}
   dl.user_dl2 > dt .centdiv{ width:240px; margin:10px auto; overflow:hidden; position:relative;}
   dl.user_dl2 > dt label{float:left; height:30px; line-height:30px; color:#fff; font-size:12px;}
