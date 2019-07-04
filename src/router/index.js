@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import login from '@/components/login/login';
-import footer from '@/components/Footer/index';
 import home from '@/components/Home/index';
+// import game from '@/components/Game/index';//如意唐三彩
 Vue.use(Router);
 
 export default new Router({
@@ -22,5 +22,11 @@ export default new Router({
         name: 'home',
       component: home
     }
+    /*,
+    {
+      path:'/game',
+      name:'game',
+      component:game
+    }*/
   ],
 });

@@ -8,11 +8,7 @@
             <div class="TabNav_List">
               <h1><span>最新公告</span><em>NEW</em></h1>
               <ul>
-                <li><a class="show" href="javascript:void(0)" url-data="/?controller=help&amp;action=noticemain&amp;nid=734"><span>一元夺宝最新公告  </span><b class="new"></b><em></em></a></li>
-                <li><a class="show" href="javascript:void(0)" url-data="/?controller=help&amp;action=noticemain&amp;nid=727"><span>【快捷支付】、【支付宝扫码4】手续费政策通知  </span><b></b><em></em></a></li>
-                <li><a class="show" href="javascript:void(0)" url-data="/?controller=help&amp;action=noticemain&amp;nid=726"><span>重庆快乐十分撤单公告  </span><b></b><em></em></a></li>
-                <li><a class="show" href="javascript:void(0)" url-data="/?controller=help&amp;action=noticemain&amp;nid=725"><span>一元夺宝最新公告  </span><b></b><em></em></a></li>
-                <li><a class="show" href="javascript:void(0)" url-data="/?controller=help&amp;action=noticemain&amp;nid=723"><span>客服系统更新公告  </span><b></b><em></em></a></li>
+                <li v-for="(item,index) in ads" :key="item.id"><a class="show" href="javascript:void(0)" :url-data="'/?controller=help&amp;action=noticemain&amp;nid='+item.id"  :title="item.name+'-'+item.time+'-'+item.content"><span>{{item.name}}</span><b class="new" v-show="item.isNew"></b><em></em></a></li>
               </ul>
             </div>
           </div>
@@ -144,7 +140,38 @@ export default {
 
       data() {
       return {
-
+         ads:[{
+          id:724,
+          name:'一元夺宝最新公告',
+          time:'2019/07/04',
+          content:'内容',
+          isNew:true
+         },
+         {
+          id:725,
+          name:'【快捷支付】、【支付宝扫码4】手续费政策通知',
+          time:'2019/07/04',
+          content:'内容',
+          isNew:false
+         },{
+          id:726,
+          name:'重庆快乐十分撤单公告',
+          time:'2019/07/04',
+          content:'内容',
+          isNew:false
+         },{
+          id:727,
+          name:'一元夺宝最新公告',
+          time:'2019/07/04',
+          content:'内容',
+          isNew:false
+         },{
+           id:728,
+          name:'客服系统更新公告',
+          time:'2019/07/04',
+          content:'内容',
+          isNew:false
+         }]
       }
     }
 }
