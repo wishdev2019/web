@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-import store from './store/store.js'
+import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import { Button, Cell, CellGroup, Checkbox, CheckboxGroup, Toast, Tab, Tabs, DatetimePicker  } from 'vant'
@@ -27,11 +27,22 @@ import './assets/font/iconfont.css';
 
 Vue.use(ElementUI);
 
+import { manageadd_query } from '@/api/request/request'
+import { objectIsEmpty } from '@/api/utils'
+
 router.beforeEach((to,from,next) => {
   const hasToken = getToken()
-  console.log(hasToken,to.path)
   if ( hasToken && hasToken != 'null'){
-    console.log("有token")
+
+    if(!store.state.user || objectIsEmpty(store.state.user)){
+      manageadd_query({
+        callback: (res) =>{
+          store.commit('handleUser',res.data.data[0])
+          console.log(store.state.user)
+        }
+      })
+    }
+
     if (to.path == '/'){
       next({path : '/home'})
     }else{

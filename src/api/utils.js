@@ -120,3 +120,14 @@ export function Encrypt(word) {
   return data
 }
 
+
+export function objectIsEmpty(data){
+  if (typeof data === 'object') {
+    for (var i in data) { // 如果不为空，则会执行到这一步，返回true
+      return false
+    }
+    return true
+  }else if(!data){
+    return true
+  }
+}

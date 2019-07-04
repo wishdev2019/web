@@ -9,14 +9,14 @@
                 <dd>
                   <div class="UserName">
                     <label>
-                      上午好，君哥发财
+                      您好，{{$store.state.user.name}}
                     </label>
                   </div>
 
                   <div class="UserIP">
                     <h4>上次登录</h4>
-                    <div class="logintime">2019-05-20 19:00:51</div>
-                    <div class="loginaddr">湖南省湘潭市</div>
+                    <div class="logintime">{{$store.state.user.logintime}}</div>
+                    <div class="loginaddr">{{$store.state.user.ipname}}</div>
                   </div>
                 </dd>
               </dl>
@@ -127,7 +127,7 @@ export default {
       close3(state){
           this.show3=state
       },
-      
+
       close4(state){
           this.show4=state
       },
@@ -137,7 +137,7 @@ export default {
       close6(state){
           this.show6=state
       },
-      
+
       handle(){
           console.log(1111)
           this.show=true

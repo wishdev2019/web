@@ -46,7 +46,7 @@
         </template>
 
         <script>
-          import { login } from '@/api/request/request'
+          import { login,manageadd_query } from '@/api/request/request'
           import SIdentify from '../Ident'
 
           export default {
