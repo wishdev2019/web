@@ -191,12 +191,13 @@ export default {
   .TopNav_Cont.Slot_header .HoriCent{height:80px;}
   .TopNav_Cont .Left_Userinfo{ width:282px; float:left; background:#028a8c url(../../../static/images/nw_topmenu_userbg.jpg) no-repeat left top; height:250px; position:absolute; bottom:0px; z-index:2;}
   .Left_Userinfo dl.user_dl{ width:230px; margin:30px auto auto; overflow:hidden; position:relative; z-index:2;}
+  .Left_Userinfo dl.user_dl .UserName{height:30px;}
   .Left_Userinfo dl.user_dl dt{ width:80px; height:80px; margin-top:5px; float:left; border-radius:50px; overflow:hidden; float:left; background:url(../../../static/images/nw_topmenu_userpic.png) no-repeat center; background-size: contain;}
   .Left_Userinfo dl.user_dl dt img{ width:100%;}
   .Left_Userinfo dl.user_dl dd{ width:100px; height:95px; float:left; font-size:14px; padding:5px 0 0 10px;float:left; margin-left:10px;}
   .Left_Userinfo dl.user_dl dd label{ float:left; height:30px; line-height:30px; color:#fff; font-size:12px;}
   .Left_Userinfo dl.user_dl dd .UserIP{ text-align:left; font-size:12px; color:#efefef;}
-  .Left_Userinfo dl.user_dl dd .UserIP h4{ font-size:14px; color:#58a5a6;}
+  .Left_Userinfo dl.user_dl dd .UserIP h4{ font-size:14px; color:#58a5a6; margin:0;}
   .Left_Userinfo dl.user_dl dd .UserIP .logintime{ width:100%;}
   .Left_Userinfo dl.user_dl dd .UserIP .loginaddr{ width:100%;}
   dl.user_dl2{ width:100%; border-top:1px solid #1a9597;margin: 0 auto; position:absolute; top:152px;}
