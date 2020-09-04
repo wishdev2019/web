@@ -16,7 +16,7 @@
     "element-ui": "^2.9.1",
     "js-md5": "^0.7.3",
     "sass-loader": "^7.1.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "vant": "^1.6.14",
     "vue": "^2.6.10",
     "vue-router": "^3.0.5",
